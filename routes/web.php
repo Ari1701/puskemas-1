@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardLaporanController;
 use App\Http\Controllers\FrontAntrianController;
 use App\Http\Controllers\JadwalDokterController;
+use App\Http\Controllers\KontakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard/home', [HomeController::class, 'index'])->name('dashboard.home');
+Route::post('/kontak', [KontakController::class, 'send'])->name('contact.send');
 Route::resource('antrian', FrontAntrianController::class);
 Route::get('livewire/antrian/cetakAntrian', [FrontAntrianController::class, 'cetakAntrian'])->name('cetakAntrian');
 Route::resource('jadwal_dokter', JadwalDokterController::class);
@@ -59,5 +61,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('redirectifauthenticated');
         Route::get('/admin', [AdminController::class, 'index']);
         Route::get('/admin/Daftarpengguna', [AdminController::class, 'daftarpengguna']);
+        Route::get('/admin/editUser', [AdminController::class, 'editUser']);
+        Route::put('/admin/updateUser', [AdminController::class, 'updateUser']);
+        Route::delete('/admin/user/{id}', [AdminController::class, 'destroy'])->name('admin.user.destroy');
+        Route::get('/admin/jadwalDokter', [AdminController::class, 'showJadwal'])->name('jadwal.show');
+        Route::get('/admin/create', [JadwalDokterController::class, 'create'])->name('jadwal.create');
+        Route::post('/admin/store', [JadwalDokterController::class, 'store'])->name('jadwal.store');
+        Route::get('/admin/edit/{id}', [JadwalDokterController::class, 'edit'])->name('jadwal.edit');
+        Route::put('/admin/update/{id}', [JadwalDokterController::class, 'update'])->name('jadwal.update');
+        Route::delete('/admin/destroy/{id}', [JadwalDokterController::class, 'destroy'])->name('jadwal.destroy');
+        Route::get('/admin/antrian', [AdminController::class, 'antrian']);
+        Route::put('/admin/antrian/call/{id}', [AdminController::class, 'call'])->name('antrian.call');
     });
 });

@@ -1,3 +1,6 @@
+@extends('livewire.admin.layouts.main')
+
+@section('content')
 <section id="antrian" class="d-flex align-items-center">
     <div class="container" style="margin-top: 150px">
 
@@ -7,7 +10,6 @@
             </div>
         @endif
 
-        @if ($cekAntrian > 0)
         <div class="row">
     <div class="col">
         <div class="table-responsive">
@@ -17,6 +19,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Role</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -26,16 +29,13 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->role_id }}</td>
                         <td>
-                            <a class="btn btn-warning" wire:click="editUser({{ $user->id }})"
-                                role="button" data-bs-toggle="modal" data-bs-target="#editUser"><i
-                                    class="bi bi-pencil"></i></a>
-
                             <button type="button" class="btn btn-danger"
-                                wire:click="deleteUser({{ $user->id }})" role="button"
-                                data-bs-toggle="modal" data-bs-target="#deleteUser"><i
-                                    class="bi bi-trash"></i></button>
-
+                                wire:click="confirmDelete({{ $user->id }})"
+                                data-bs-toggle="modal" data-bs-target="#deleteUser">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -45,16 +45,10 @@
         </div>
     </div>
     </div>
-        @else
-            {{-- Jangan Tampilkan Apa-apa --}}
-        @endif
 
-        @include('livewire.antrian.editAntrian')
-
-        @include('livewire.antrian.createAntrian')
-
-        @include('livewire.antrian.deleteAntrian')
+        @include('livewire.admin.deleteUser')
 
     </div>
 
-</section><!-- End Hero -->
+</section>
+@endsection

@@ -11,72 +11,7 @@
 
             <form wire:submit.prevent="save">
                 <div class="modal-body">
-                    <div class="mb-3">
 
-                        <input type="hidden" wire:model="tanggal_antrian" class="form-control"
-                            value="{{ $tanggal_antrian }}"readonly>
-                        @error('tanggal_antrian')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-
-                        <input type="hidden" wire:model="no_antrian" class="form-control" value="{{ $no_antrian }}"
-                            readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label>Nama lengkap</label>
-                        <input type="text" wire:model="nama" class="form-control">
-                        @error('nama')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Alamat</label>
-                        <textarea class="form-control" wire:model="alamat" cols="20"></textarea>
-                        @error('alamat')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Jenis Kelamin</label>
-                        <select class="form-select" wire:model="jenis_kelamin" aria-label="Default select example">
-                            <option selected>Pilih jenis kelamin</option>
-                            <option value="laki-laki">Laki-laki</option>
-                            <option value="perempuan">Perempuan</option>
-                        </select>
-                        @error('jenis_kelamin')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Nomor HP</label>
-                        <input type="text" wire:model="no_hp" class="form-control">
-                        @error('no_hp')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Nomor KTP</label>
-                        <input type="text" wire:model="no_ktp" class="form-control">
-                        @error('no_ktp')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Tanggal lahir</label>
-                        <input type="date" wire:model="tgl_lahir" class="form-control">
-                        @error('tgl_lahir')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Pekerjaan</label>
-                        <input type="text" wire:model="pekerjaan" class="form-control">
-                        @error('pekerjaan')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <div class="mb-3">
                         <label>Keluhan</label>
                         <textarea class="form-control" wire:model="keluhan" cols="20"></textarea>

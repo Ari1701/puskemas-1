@@ -83,8 +83,5 @@ class DatabaseSeeder extends Seeder
             JadwalDokterSeeder::class,
         ]);
 
-        $this->call([
-            DatabaseSeeder::class,
-        ]);
     }
 }

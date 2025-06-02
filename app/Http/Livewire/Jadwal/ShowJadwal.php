@@ -32,7 +32,7 @@ class ShowJadwal extends Component
 
         $poli_list = JadwalDokter::groupBy('poli')->pluck('poli');
 
-        return view('livewire.jadwal.show-jadwal', [
+        return view('livewire.admin.show-jadwal', [
             'jadwal_dokter' => $jadwal_dokter,
             'poli_list' => $poli_list
         ]);
@@ -52,7 +52,7 @@ class ShowJadwal extends Component
     public function store()
     {
         $this->validate([
-            'nip' => 'required|unique:jadwal_dokter',
+            'nip' => 'required|unique:jadwal_dokter,nip',
             'nama_dokter' => 'required',
             'poli' => 'required|in:umum, gigi, tht, lansia & disabilitas, balita, kia & kb, nifas/pnc',
             'sesi' => 'required|in:Pagi,Siang,Sore,Malam',
@@ -71,51 +71,6 @@ class ShowJadwal extends Component
 
         session()->flash('message', 'Jadwal dokter berhasil ditambahkan.');
         $this->resetInputFields();
-    }
-
-    public function edit($id)
-    {
-        $jadwal = JadwalDokter::findOrFail($id);
-        $this->nip = $jadwal->nip;
-        $this->nama_dokter = $jadwal->nama_dokter;
-        $this->poli = $jadwal->poli;
-        $this->sesi = $jadwal->sesi;
-        $this->jam_mulai = $jadwal->jam_mulai;
-        $this->jam_selesai = $jadwal->jam_selesai;
-        $this->updateMode = true;
-    }
-
-    public function update($id)
-    {
-        $this->validate([
-            'nip' => 'required|unique:jadwal_dokter,nip,' . $id,
-            'nama_dokter' => 'required',
-            'poli' => 'required|in:umum, gigi, tht, lansia & disabilitas, balita, kia & kb, nifas/pnc',
-            'sesi' => 'required|in:Pagi,Siang,Sore,Malam',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-        ]);
-
-        $jadwal = JadwalDokter::findOrFail($id);
-        $jadwal->update([
-            'nip' => $this->nip,
-            'nama_dokter' => $this->nama_dokter,
-            'poli' => $this->poli,
-            'sesi' => $this->sesi,
-            'jam_mulai' => $this->jam_mulai,
-            'jam_selesai' => $this->jam_selesai,
-        ]);
-    
-
-        $this->updateMode = false;
-        session()->flash('message', 'Jadwal dokter berhasil diperbarui.');
-        $this->resetInputFields();
-    }
-
-    public function delete($id)
-    {
-        JadwalDokter::findOrFail($id)->delete();
-        session()->flash('message', 'Jadwal dokter berhasil dihapus.');
     }
 
     public function resetFilters()

@@ -99,11 +99,6 @@
                                 <th scope="col">No Antrian</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Alamat</th>
-                                <th scope="col">Jenis kelamin</th>
-                                <th scope="col">Nomor HP</th>
-                                <th scope="col">Nomor KTP</th>
-                                <th scope="col">Tgl. Lahir</th>
-                                <th scope="col">Pekerjaan</th>
                                 <th scope="col">Poli</th>
                                 <th scope="col">Tgl. Antrian</th>
                             </tr>
@@ -115,13 +110,6 @@
                                     <td>{{ $item->no_antrian }}</td>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->alamat }}</td>
-                                    <td>{{ $item->jenis_kelamin }}</td>
-                                    <td>{{ $item->no_hp }}</td>
-                                    <td>
-                                        {{ substr_replace($item->no_ktp, '******', 4, 6) }}
-                                    </td>
-                                    <td>{{ $item->tgl_lahir }}</td>
-                                    <td>{{ $item->pekerjaan }}</td>
                                     <td>{{ $item->poli }}</td>
                                     <td>{{ $item->tanggal_antrian }}</td>
                                 </tr>

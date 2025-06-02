@@ -17,17 +17,8 @@ class ShowAntrian extends Component
     protected $paginationTheme = 'bootstrap';
 
     protected $rules = [
-        'no_antrian'        => 'required',
-        'nama'              => 'required',
-        'alamat'            => 'required',
-        'jenis_kelamin'     => 'required',
-        'no_hp'             => 'required|numeric',
-        'no_ktp'            => 'required|numeric',
-        'tgl_lahir'         => 'required',
-        'pekerjaan'         => 'required',
         'keluhan'         => 'required',
         'poli'              => 'required',
-        'tanggal_antrian'   => 'required'
     ];
 
     public function updated($fields)
@@ -38,64 +29,66 @@ class ShowAntrian extends Component
 
     public function save()
     {
-        // Mengambil data antrian terbaru berdasarkan poli yang di pilih
+        $this->validate([
+            'keluhan' => 'required',
+            'poli' => 'required',
+        ]);
+
+        $user = auth()->user();
+
+        // Ambil antrian terakhir hari ini berdasarkan poli
         $latestAntrian = Antrian::where('poli', $this->poli)
             ->where('tanggal_antrian', now()->toDateString())
             ->latest('id')
             ->first();
 
-        // Jika tanggal berbeda dengan hari ini, maka reset nomor antrian dari awal
         if (!$latestAntrian) {
-            if ($this->poli === 'umum') {
-                $this->no_antrian = 'U1';
-            } elseif ($this->poli === 'gigi') {
-                $this->no_antrian = 'G1';
-            } elseif ($this->poli === 'tht') {
-                $this->no_antrian = 'T1';
-            } elseif ($this->poli === 'lansia & disabilitas') {
-                $this->no_antrian = 'L1';
-            } elseif ($this->poli === 'balita') {
-                $this->no_antrian = 'B1';
-            } elseif ($this->poli === 'kia & kb') {
-                $this->no_antrian = 'K1';
-            } elseif ($this->poli === 'nifas/pnc') {
-                $this->no_antrian = 'N1';
-            }
-            $this->tanggal_antrian = now()->toDateString();
+            // Set awalan kode berdasarkan jenis poli
+            $kode = match ($this->poli) {
+                'umum' => 'U',
+                'gigi' => 'G',
+                'tht' => 'T',
+                'lansia & disabilitas' => 'L',
+                'balita' => 'B',
+                'kia & kb' => 'K',
+                'nifas/pnc' => 'N',
+                default => 'X',
+            };
+            $this->no_antrian = $kode . '1';
         } else {
-            // Jika tanggalnya sama dengan hari ini, maka no antrian akan melakukan increment / pengurutan
-            $kode_awal = substr($latestAntrian->no_antrian, 0, 1);
-            $angka = (int) substr($latestAntrian->no_antrian, 1);
-            $angka += 1;
-            $this->no_antrian = $kode_awal . $angka;
-            $this->tanggal_antrian = $latestAntrian->tanggal_antrian;
+            $kode = substr($latestAntrian->no_antrian, 0, 1);
+            $angka = (int) substr($latestAntrian->no_antrian, 1) + 1;
+            $this->no_antrian = $kode . $angka;
         }
 
+        $this->tanggal_antrian = now()->toDateString();
 
-        $validatedData = $this->validate();
-        $validatedData['no_antrian'] = $this->no_antrian;
-        $validatedData['tanggal_antrian'] = $this->tanggal_antrian;
-        $validatedData['user_id'] = auth()->user()->id;
+        Antrian::create([
+            'user_id'          => $user->id,
+            'no_antrian'       => $this->no_antrian,
+            'tanggal_antrian'  => $this->tanggal_antrian,
+            'nama'             => $user->name,
+            'alamat'           => $user->alamat,
+            'jenis_kelamin'    => $user->jenis_kelamin,
+            'no_hp'            => $user->no_hp,
+            'no_ktp'           => $user->no_ktp,
+            'tgl_lahir'        => $user->tgl_lahir,
+            'pekerjaan'        => $user->pekerjaan,
+            'keluhan'          => $this->keluhan,
+            'poli'             => $this->poli,
+        ]);
 
-        Antrian::create($validatedData);
         session()->flash('success', 'Berhasil Mengambil Antrian');
         $this->emit('update');
-        $this->resetInput();
+        $this->reset(['keluhan', 'poli', 'no_antrian', 'tanggal_antrian']);
         $this->dispatchBrowserEvent('closeModal');
     }
 
 
+
     public function resetInput()
     {
-        $this->no_antrian = '';
-        $this->nama = '';
-        $this->alamat = '';
-        $this->jenis_kelamin = '';
-        $this->no_hp = '';
-        $this->no_ktp = '';
         $this->poli = '';
-        $this->tgl_lahir = '';
-        $this->pekerjaan = '';
         $this->keluhan = '';
     }
 
