@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use app\Models\Kontak;
+use App\Models\Berita;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -16,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+         $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -26,7 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $beritas = Berita::latest()->take(3)->get();
+        return view('home', compact('beritas'));
     }
 
     public function send(Request $request)

@@ -36,7 +36,7 @@ class LoginController extends Controller
                 return '/dashboard';
             } elseif ($roleId == 3) {
                 return '/admin';
-            } elseif ($roleId == 2) { // Misalnya, role_id 2 untuk pengguna lain yang valid
+            } elseif ($roleId == 2) { 
                 return '/dashboard/home';
             } else {
                 abort(403, 'TIDAK ADA AKSES!');

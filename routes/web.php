@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardAntrianController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,12 +24,10 @@ use App\Http\Controllers\KontakController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/dashboard/home', [HomeController::class, 'index'])->name('dashboard.home');
+Route::get('/', [HomeController::class, 'index']);
 Route::post('/kontak', [KontakController::class, 'send'])->name('contact.send');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
+Route::get('/dashboard/home', [HomeController::class, 'index'])->name('dashboard.home');
 Route::resource('antrian', FrontAntrianController::class);
 Route::get('livewire/antrian/cetakAntrian', [FrontAntrianController::class, 'cetakAntrian'])->name('cetakAntrian');
 Route::resource('jadwal_dokter', JadwalDokterController::class);
@@ -40,9 +39,7 @@ Route::get('/profil', [UserController::class, 'show'])->middleware('auth')->name
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::group(['middleware' => 'CheckRole:dokter'], function () {
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('redirectifauthenticated');
         Route::get('dashboard', [DashboardController::class, 'index']);
-
         Route::get('dashboard/antrian/poliUmum', [DashboardAntrianController::class, 'indexPoliUmum']);
         Route::get('dashboard/antrian/poliGigi', [DashboardAntrianController::class, 'indexPoliGigi']);
         Route::get('dashboard/antrian/poliTht', [DashboardAntrianController::class, 'indexPoliTht']);
@@ -58,7 +55,6 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::group(['middleware' => 'CheckRole:admin'], function () {
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('redirectifauthenticated');
         Route::get('/admin', [AdminController::class, 'index']);
         Route::get('/admin/Daftarpengguna', [AdminController::class, 'daftarpengguna']);
         Route::get('/admin/editUser', [AdminController::class, 'editUser']);
@@ -72,5 +68,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/destroy/{id}', [JadwalDokterController::class, 'destroy'])->name('jadwal.destroy');
         Route::get('/admin/antrian', [AdminController::class, 'antrian']);
         Route::put('/admin/antrian/call/{id}', [AdminController::class, 'call'])->name('antrian.call');
+        Route::resource('/admin/berita', BeritaController::class)->parameters([
+            'berita' => 'berita'
+        ]);
+        Route::get('/admin/kontak', [KontakController::class, 'index'])->name('admin.kontak.index');
+        Route::get('/admin/kontak/{id}', [KontakController::class, 'show'])->name('admin.kontak.show');
     });
 });

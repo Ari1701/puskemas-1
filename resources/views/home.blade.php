@@ -148,7 +148,7 @@
             <div class="container">
 
                 <div class="section-title">
-                    <h2>Kontak</h2>
+                    <h2>P</h2>
                 </div>
 
                 <div class="row mt-5">
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="col-lg-8 mt-5 mt-lg-0">
-                        <form action="{{ route('contact.send') }}" method="POST" role="form" class="php-email-form">
+                        <form action="{{ route('contact.send') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 form-group">
@@ -219,7 +219,34 @@
             </section>
 
         
-        <!-- End Contact Section -->
+<!-- ======= Berita Section ======= -->
+            <section id="berita" class="berita">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Berita Terbaru</h2>
+                    </div>
+                    <div class="row">
+                        @forelse($beritas as $berita)
+                            <div class="col-lg-4 d-flex align-items-stretch mb-4">
+                                <div class="card w-100">
+                                    @if($berita->gambar)
+                                        <img src="{{ asset('storage/' . $berita->gambar) }}" class="card-img-top" alt="Gambar Berita">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $berita->judul }}</h5>
+                                        <p class="card-text">{{ \Illuminate\Support\Str::limit($berita->isi, 100) }}</p>
+                                        <a href="{{ route('berita.show', $berita->id) }}" class="btn btn-primary btn-sm">Baca Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-muted">Belum ada berita terbaru.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </section>
+
+
 
     </main><!-- End #main -->
 @endsection

@@ -141,6 +141,13 @@
                         </a>
                     </li>
                 </ul>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/admin/berita">
+                            <i class="bi bi-circle"></i><span>Berita</span>
+                        </a>
+                    </li>
+                </ul>
             </li><!-- End Components Nav -->
 
 
