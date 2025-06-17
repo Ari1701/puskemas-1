@@ -1,20 +1,25 @@
+@extends('layouts.main')
+
+@include('partials.navbar')
+
+@section('content')
 <div class="container mt-4">
-    <h2>{{ $berita->judul }}</h2>
     
     @if ($berita->gambar)
-        <div class="my-3">
-            <img src="{{ asset('storage/' . $berita->gambar) }}" alt="Gambar Berita" width="400" class="img-fluid rounded">
-        </div>
+    <div class="mb-4">
+        <img src="{{ asset('storage/' . $berita->gambar) }}" alt="Gambar Berita" class="img-fluid rounded shadow" style="max-width: 100%; height: auto;">
+    </div>
     @endif
 
-    <p>{!! nl2br(e($berita->konten)) !!}</p>
+    <h1 class="fw-bold mb-3">{{ $berita->judul }}</h1>
+    
+    <div class="mb-4">
+        <p class="text-muted">Diposting pada: {{ $berita->created_at->format('d M Y - H:i') }}</p>
+        <div style="white-space: pre-line;">
+            {!! nl2br(e($berita->konten)) !!}
+        </div>
+    </div>
 
-    <a href="{{ route('berita.index') }}" class="btn btn-secondary mt-3">← Kembali</a>
-    <a href="{{ route('berita.edit', $berita->id) }}" class="btn btn-warning mt-3">Edit</a>
-    <form action="{{ route('berita.destroy', $berita->id) }}" method="POST" class="d-inline">
-        @csrf
-        @method('DELETE')
-        <button onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-danger mt-3">Hapus</button>
-    </form>
+    <a href="{{ route('dashboard.home') }}" class="btn btn-outline-secondary mb-5">← Kembali ke Daftar Berita</a>
 </div>
 @endsection

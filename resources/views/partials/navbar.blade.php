@@ -17,6 +17,7 @@
              <ul>
                  <li><a class="nav-link scrollto" href="/">Home</a></li>
                  <li><a class="nav-link scrollto" href="/antrian">Antrian</a></li>
+                 <li><a class="nav-link scrollto" href="/#berita">Berita</a></li>
                  <li><a class="nav-link scrollto" href="/#contact">Kontak</a></li>
              </ul>
              <i class="bi bi-list mobile-nav-toggle"></i>

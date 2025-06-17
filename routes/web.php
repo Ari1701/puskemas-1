@@ -26,7 +26,7 @@ use App\Http\Controllers\KontakController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/kontak', [KontakController::class, 'send'])->name('contact.send');
-Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('umum.berita.show');
 Route::get('/dashboard/home', [HomeController::class, 'index'])->name('dashboard.home');
 Route::resource('antrian', FrontAntrianController::class);
 Route::get('livewire/antrian/cetakAntrian', [FrontAntrianController::class, 'cetakAntrian'])->name('cetakAntrian');
