@@ -17,6 +17,7 @@
              <ul>
                  <li><a class="nav-link scrollto" href="/">Home</a></li>
                  <li><a class="nav-link scrollto" href="/antrian">Antrian</a></li>
+                 <li><a class="nav-link scrollto" href="/jadwal">Jadwal</a></li>
                  <li><a class="nav-link scrollto" href="/#berita">Berita</a></li>
                  <li><a class="nav-link scrollto" href="/#contact">Kontak</a></li>
              </ul>
@@ -36,6 +37,7 @@
                          <li><a class="dropdown-item" href="/profil">Profil </a></li>
 
                          <li><a class="dropdown-item" href="/antrian">Menu Antrian </a></li>
+                         
                      @endif
 
                      <form action="/logout" method="post">
